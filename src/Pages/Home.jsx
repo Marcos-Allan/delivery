@@ -11,8 +11,7 @@ export default function Home() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    localStorage.clear("LB_DELIVERY")
-    console.log(localStorage.getItem("LB_DELIVERY"))
+    localStorage.removeItem("LB_DELIVERY")
   },[])
 
   function getTimerDelivery() {
@@ -28,6 +27,12 @@ export default function Home() {
   }
 
   const [loading, setloading] = useState(false)
+  const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
+
+  function toggleDriver(drv) {
+    localStorage.setItem('driver_lavanderia_brilhante', drv)
+    setDriver(drv)
+  }
 
   return (
     <>
@@ -37,11 +42,18 @@ export default function Home() {
       <div
         className={`bg-[#fefefe] w-dvw h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden`}
       >
-        <p className={`text-[36px] mb-14 leading-relaxed text-[#a591ef]`}>vairton</p>
+        <p className={`text-[36px] mb-14 leading-relaxed text-[#a591ef]`}>{driver}</p>
+        
         <div className={`relative flex items-center justify-center w-[90%] rounded-3xl overflow-hidden border border-[#a591ef] shadow-2xl shadow-[#a591ef]`}>
-          <p className={`left-0 absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#a591ef] rounded-3xl px-12`}></p>
-          <p className={`text-black grow h-full py-2 pr-12 text-right`}>vairton</p>
-          <p className={`text-[#a591ef] grow h-full py-2 pr-12 text-right`}>geraldo</p>
+          <p className={`${driver == 'vairton' ? 'left-0' : 'left-[50%]'} absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#a591ef] rounded-3xl px-12 transition-all duration-250ms`}></p>
+          <p
+            onClick={() => toggleDriver('vairton')}
+            className={`${driver == 'vairton' ? 'text-black' : 'text-[#a591ef]'} grow h-full py-2 text-center transition-all duration-250`}
+          >vairton</p>
+          <p
+            onClick={() => toggleDriver('geraldo')}
+            className={`${driver == 'geraldo' ? 'text-black' : 'text-[#a591ef]'} grow h-full py-2 text-center transition-all duration-250`}
+          >geraldo</p>
         </div>
 
         <div

@@ -13,10 +13,12 @@ export default function Deliveries() {
     const navigate = useNavigate()
 
     const [time, setTime] = useState()
+    const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
     const [loading, setloading] = useState(false)
 
     useEffect(() => {
         setTime(localStorage.getItem("LB_DELIVERY"))
+        setDriver(localStorage.getItem("driver_lavanderia_brilhante"))
     },[])
 
   return (
@@ -27,7 +29,7 @@ export default function Deliveries() {
         <div
             className={`bg-[#fefefe] w-dvw h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden`}
         >
-            <p className={`text-[36px] mb-4 leading-relaxed text-[#a591ef]`}>vairton</p>
+            <p className={`text-[36px] mb-4 leading-relaxed text-[#a591ef]`}>{driver}</p>
             <p className={`w-[90%] flex items-center justify-center mb-6 bg-[#a591ef] py-2.5 rounded-[30px] shadow-2xl shadow-[#a591ef] text-white`}>delivery iniciado ás {time}</p>
         
             <div className={`w-[90%] flex items-center mb-4 text-[#a591ef]`}>
