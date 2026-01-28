@@ -27,7 +27,7 @@ export default function Deliveries() {
             <Loading />
         )}
         <div
-            className={`bg-[#fefefe] w-dvw h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden`}
+            className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
         >
             <p className={`text-[36px] mb-4 leading-relaxed text-[#a591ef]`}>{driver}</p>
             <p className={`w-[90%] flex items-center justify-center mb-6 bg-[#a591ef] py-2.5 rounded-[30px] shadow-2xl shadow-[#a591ef] text-white`}>delivery iniciado ás {time}</p>
@@ -84,7 +84,7 @@ export default function Deliveries() {
             </div>
 
             <p className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}>
-                palca - div8919
+                placa - div8919
             </p>
         </div>
     </>
