@@ -19,6 +19,7 @@ export default function Order() {
   const [time, setTime] = useState()
   const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
   const [client, setClient] = useState({})
+  const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
 
   useEffect(() => {
       getOrder()
@@ -122,7 +123,7 @@ export default function Order() {
 
         {loading == false && (
           <p className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}>
-            placa - div8919
+            placa - {licensePlate}
           </p> 
         )}
 

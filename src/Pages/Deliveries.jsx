@@ -1,24 +1,41 @@
+//IMPORTAÇÃO DAS  BILBIOTECAS
 import { useEffect, useState } from "react";
-
+import api from "../services/api";
 import { useNavigate } from "react-router";
 
+//IMPORTAÇÃO DOS ÍCONES
 import { FaMapLocationDot } from "react-icons/fa6";
 
-import '../App.css'
-
+//IMPORTAÇÃO DOS COMPONENTES
 import Loading from "../Components/Loading";
 
 export default function Deliveries() {
 
+    //UTILIZAÇÃO DA BIBLIOTECA DE NAVEGAÇÃO
     const navigate = useNavigate()
 
+    //UTILIZAÇÃO DE ESTADOS PARA CONTROLAR AS VARIÁVEIS DO COMPONENTE
     const [time, setTime] = useState()
     const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
     const [loading, setloading] = useState(false)
+    const [orders, setOrders] = useState([])
+    const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
 
+    //FUNÇÃO RESPONSÁVEL POR TENTA PEGARR OS PEDIDOS DDO 
+    function getOrders() {
+        api.get('/orders')
+        .then((res) => {
+            console.log(res.data)
+            setOrders(res.data)
+        })
+        .catch((err) => console.log(err))
+    }
+
+    //FUNÇÃO CHAMADA TODA VEZ QUE O COMPONENTE É RENDERIZADO, PARA PEGAR AS INFORMAÇÕES DO PEDIDO E DO MOTORISTA
     useEffect(() => {
         setTime(localStorage.getItem("LB_DELIVERY"))
         setDriver(localStorage.getItem("driver_lavanderia_brilhante"))
+        getOrders()
     },[])
 
   return (
@@ -50,41 +67,50 @@ export default function Deliveries() {
                     <p className={`font-lighttruncate text-[#a591ef] text-[12px]`}>rua teodoro sampaio nº 2461</p>
                 </div>
             </div>
-        
-            <div
-                onClick={() => {
-                    navigate('/order/2')
-                }}
-                className={`flex items-center justify-center w-[90%] bg-white h-20 px-3 py-2 rounded-xl border-2 border-[#a591ef] outline outline-white mb-4 shadow-2xl shadow-[#a591ef]`}
-            >
-                <FaMapLocationDot className={`w-[20%] text-[40px] text-[#a591ef] mr-4`} />
-                <div className={`flex flex-col items-start justify-between truncate w-[80%]`}>
-                    <p className={`font-bold truncate text-[#a591ef] text-[16px] mb-1`}>trousseau - shopping iguatemi</p>
-                    <p className={`font-lighttruncate text-[#a591ef] text-[12px]`}>rua teodoro sampaio nº 2481</p>
-                </div>
-            </div>
+                
+            {
+                orders.map((item, index) => (
+                        <div
+                            onClick={() => {
+                                navigate(`/order/${item._id}`)
+                            }}
+                            className={`flex items-center justify-center w-[90%] bg-white h-20 px-3 py-2 rounded-xl border-2 border-[#a591ef] outline outline-white mb-4 shadow-2xl shadow-[#a591ef]`}
+                        >
+                            <FaMapLocationDot className={`w-[20%] text-[40px] text-[#a591ef] mr-4`} />
+                            <div className={`flex flex-col items-start justify-between truncate w-[80%]`}>
+                                <p className={`font-bold truncate text-[#a591ef] text-[16px] mb-1`}>{item.client} - {item.location}</p>
+                                <p className={`font-lighttruncate text-[#a591ef] text-[12px]`}>rua teodoro sampaio nº 2481</p>
+                            </div>
+                        </div>
+                    ))
+                }
 
-            <div className={`w-[90%] flex items-center mb-4 text-[#a591ef]`}>
-                <div className={`bg-[#a591ef] grow h-[0.2px]`}></div>
-                <p className={`px-4`}>entregue</p>
-                <div className={`bg-[#a591ef] grow h-[0.2px]`}></div>
-            </div>
-
-            <div
-                onClick={() => {
-                    navigate('/order/3')
-                }}
-                className={`flex items-center justify-center w-[90%] bg-[#a591ef] h-20 px-3 py-2 rounded-xl border-2 border-[#a591ef] outline outline-white mb-4 shadow-2xl shadow-[#a591ef]`}
-            >
-                <FaMapLocationDot className={`w-[20%] text-[40px] text-white mr-4`} />
-                <div className={`flex flex-col items-start justify-between truncate w-[80%]`}>
-                    <p className={`font-bold truncate text-white text-[16px] mb-1`}>trousseau - shopping iguatemi</p>
-                    <p className={`font-lighttruncate text-white text-[12px]`}>rua teodoro sampaio nº 2469</p>
+                <div className={`w-[90%] flex items-center mb-4 text-[#a591ef]`}>
+                    <div className={`bg-[#a591ef] grow h-[0.2px]`}></div>
+                    <p className={`px-4`}>entregue</p>
+                    <div className={`bg-[#a591ef] grow h-[0.2px]`}></div>
                 </div>
-            </div>
+
+                {
+                    orders.map((item, index) => (
+                        <div
+                            onClick={() => {
+                                navigate(`/order/${item._id}`)
+                            }}
+                            className={`flex items-center justify-center w-[90%] bg-[#a591ef] h-20 px-3 py-2 rounded-xl border-2 border-[#a591ef] outline outline-white mb-4 shadow-2xl shadow-[#a591ef]`}
+                        >
+                            <FaMapLocationDot className={`w-[20%] text-[40px] text-white mr-4`} />
+                            <div className={`flex flex-col items-start justify-between truncate w-[80%]`}>
+                                <p className={`font-bold truncate text-white text-[16px] mb-1`}>trousseau - shopping iguatemi</p>
+                                <p className={`font-lighttruncate text-white text-[12px]`}>rua teodoro sampaio nº 2469</p>
+                            </div>
+                        </div>
+                    ))
+                }
+            
 
             <p className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}>
-                placa - div8919
+                placa - {licensePlate}
             </p>
         </div>
     </>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import api from "../services/api";
 
 import { useNavigate } from "react-router";
 
@@ -10,9 +11,7 @@ export default function Home() {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    localStorage.removeItem("LB_DELIVERY")
-  },[])
+  
 
   function getTimerDelivery() {
     const now = new Date();
@@ -27,12 +26,31 @@ export default function Home() {
   }
 
   const [loading, setloading] = useState(false)
+  const [vehicles, setVehicles] = useState([])
+  const [vehiclesID, setVehiclesID] = useState(0)
   const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
+  const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
 
   function toggleDriver(drv) {
     localStorage.setItem('driver_lavanderia_brilhante', drv)
     setDriver(drv)
   }
+
+  function getVehicles() {
+    api.get('/vehicles')
+    .then((res) => {
+      console.log(res.data)
+      res.data.map((item) => {  
+        setVehicles(prev => [...prev, item])
+      })
+    })
+    .catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    localStorage.removeItem("LB_DELIVERY")
+    getVehicles()
+  },[])
 
   return (
     <>
@@ -66,8 +84,21 @@ export default function Home() {
           iniciar
         </div>
 
-        <p className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}>
-          placa - div8919
+        <p
+          onClick={() => {
+            if(vehiclesID == 0) {
+              setVehiclesID(1)
+              localStorage.setItem('vehicle_lavanderia_brilhante', vehicles[1].license_plate)
+              setLicensePlate(vehicles[1].license_plate)
+            } else {
+              setVehiclesID(0)    
+              localStorage.setItem('vehicle_lavanderia_brilhante', vehicles[0].license_plate)
+              setLicensePlate(vehicles[0].license_plate)
+            }
+          }} 
+          className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}
+        >
+          placa - {licensePlate}
         </p>
 
       </div>
