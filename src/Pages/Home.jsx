@@ -11,8 +11,6 @@ export default function Home() {
 
   const navigate = useNavigate()
 
-  
-
   function getTimerDelivery() {
     const now = new Date();
 
@@ -28,13 +26,9 @@ export default function Home() {
   const [loading, setloading] = useState(false)
   const [vehicles, setVehicles] = useState([])
   const [vehiclesID, setVehiclesID] = useState(0)
-  const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
-  const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
-
-  function toggleDriver(drv) {
-    localStorage.setItem('driver_lavanderia_brilhante', drv)
-    setDriver(drv)
-  }
+  const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Carregando')
+  const [drivers, setDrivers] = useState([])
+  const [indexDriver, setIndexDriver] = useState(localStorage.getItem('driver_index_lavanderia_brilhante') !== null ? localStorage.getItem('driver_index_lavanderia_brilhante') : 0)
 
   function getVehicles() {
     api.get('/vehicles')
@@ -47,10 +41,32 @@ export default function Home() {
     .catch((err) => console.log(err))
   }
 
+  function getDrivers() {
+    api.get('/employees')
+    .then((res) => {
+      
+      const deliveryes = res.data.filter(item => item.position === "Entregador")
+      console.log(deliveryes)
+      setDrivers([])
+      deliveryes.map((item) => {  
+        console.log(item.name)
+        setDrivers(prev => [...prev, item])
+      })
+    })
+    .catch((err) => console.log(err))
+  }
+
   useEffect(() => {
     localStorage.removeItem("LB_DELIVERY")
     getVehicles()
+    getDrivers()
   },[])
+
+  function toggleDriver(index) {
+    localStorage.setItem('driver_index_lavanderia_brilhante', index)
+    localStorage.setItem('driver_lavanderia_brilhante', drivers[index].name)
+    setIndexDriver(index)
+  }
 
   return (
     <>
@@ -60,18 +76,16 @@ export default function Home() {
       <div
         className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
       >
-        <p className={`text-[36px] mb-14 leading-relaxed text-[#a591ef]`}>{driver}</p>
+        <p className={`text-[36px] mb-14 leading-relaxed text-[#a591ef]`}>{drivers[indexDriver]?.name || 'Driver'}</p>
         
         <div className={`relative flex items-center justify-center w-[90%] rounded-3xl overflow-hidden border border-[#a591ef] shadow-2xl shadow-[#a591ef]`}>
-          <p className={`${driver == 'vairton' ? 'left-0' : 'left-[50%]'} absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#a591ef] rounded-3xl px-12 transition-all duration-250ms`}></p>
-          <p
-            onClick={() => toggleDriver('vairton')}
-            className={`${driver == 'vairton' ? 'text-black' : 'text-[#a591ef]'} grow h-full py-2 text-center transition-all duration-250`}
-          >vairton</p>
-          <p
-            onClick={() => toggleDriver('geraldo')}
-            className={`${driver == 'geraldo' ? 'text-black' : 'text-[#a591ef]'} grow h-full py-2 text-center transition-all duration-250`}
-          >geraldo</p>
+          <p className={`${indexDriver == 0 ? 'left-0' : 'right-0'} absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#a591ef] rounded-3xl px-12 transition-all duration-250ms`}></p>
+          {drivers && drivers.map((item, index) => (
+            <p
+              onClick={() => toggleDriver(index)}
+              className={`grow h-full py-2 text-center transition-all duration-250 text-black`}
+            >{item.name}</p>
+          ))}
         </div>
 
         <div

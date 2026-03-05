@@ -7,6 +7,9 @@ import './index.css'
 import Home from './Pages/Home';
 import Deliveries from './Pages/Deliveries';
 import Order from './Pages/Order';
+import AdmUser from './Pages/AdmUser';
+import AdmVehicles from './Pages/AdmVehicles';
+import NotFound from './Pages/NotFound';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,6 +18,9 @@ createRoot(document.getElementById('root')).render(
       <Route path="/" element={<Home />} /> 
       <Route path="/deliveries" element={<Deliveries />} /> 
       <Route path="/order/:id" element={<Order />} /> 
+      <Route path="/adm/user" element={<AdmUser />} /> 
+      <Route path="/adm/vehicle" element={<AdmVehicles />} /> 
+      <Route path="*" element={<NotFound />} />
     </Routes>
     </BrowserRouter>
   </StrictMode>,
