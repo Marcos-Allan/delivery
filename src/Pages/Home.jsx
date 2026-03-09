@@ -45,7 +45,6 @@ export default function Home() {
   function getDrivers() {
     api.get('/employees')
     .then((res) => {
-      
       const deliveryes = res.data.filter(item => item.position === "Entregador")
       console.log(deliveryes)
       setDrivers([])
@@ -64,7 +63,7 @@ export default function Home() {
     getDrivers()
 
     if(drivers.length >= 0 && vehicles.length >= 0) {
-      setloading(false)
+      setloading(true)
     }
   },[])
 
