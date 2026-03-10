@@ -8,6 +8,7 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import '../App.css'
 
 import Loading from "../Components/Loading";
+import api from "../services/api";
 
 export default function Order() {
 
@@ -19,6 +20,7 @@ export default function Order() {
   const [time, setTime] = useState()
   const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
   const [client, setClient] = useState({})
+  const [clothes, setClothes] = useState()
   const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
 
   useEffect(() => {
@@ -29,39 +31,17 @@ export default function Order() {
   },[])
 
   function getOrder() {
-    if(id == 1) {
-      setClient({
-        nome: "1 Trousseau - shopping iguatemi",
-        endereco: "rua teodoro sampaio n° 2461",
-        pecas: [
-          "Camisa social",
-          "Camisa social",
-          "Camisa social",
-        ]
-      })
-    } else if(id == 2) {
-      setClient({
-        nome: "2 Trousseau - shopping iguatemi",
-        endereco: "rua teodoro sampaio n° 2481",
-        pecas: [
-          "Calça social",
-          "Calça social",
-          "Calça social",
-        ]
-      })
-    } else {
-      setClient({
-        nome: "3 Trousseau - shopping iguatemi",
-        endereco: "rua teodoro sampaio n° 2469",
-        pecas: [
-          "Blusa social",
-          "Blusa social",
-          "Blusa social",
-        ]
-      })
-    }
-
-    setloading(false)
+    setloading(true)
+    
+    api.get(`/get-order/${id}`)
+    .then((res) => {
+      console.log(res.data.order)
+      setClient(res.data.order)
+      setClothes(JSON.parse(res.data.order.clothes))
+      console.log(id)
+      setloading(false)
+    })
+    .catch((err) => console.log(err))
   }
 
   const notifySuccess = () => {
@@ -86,25 +66,26 @@ export default function Order() {
         <Loading />
       ) : (
         <div
-          className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
+          className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 pb-24`}
         >
           <p className={`text-[36px] mb-4 text-[#a591ef]`}>{driver}</p>
           <p className={`w-[90%] flex items-center justify-center mb-6 bg-[#a591ef] py-2.5 rounded-[30px] shadow-2xl shadow-[#a591ef] text-white`}>delivery iniciado ás {time}</p>
         
           <div className={`w-[90%] border border-[#a591ef] rounded-xl overflow-hidden shadow-2xl shadow-[#a591ef]`}>
             <div className={`w-full bg-[#a591ef] px-3 py-3 mb-2 shadow-2xl shadow-[#a591ef]`}>
-              <p className={`mb-2 font-bold text-[16px] text-white`}>{client && client.nome && client.nome}</p>
+              <p className={`mb-2 font-bold text-[16px] text-white`}>{client && client.client && client.client} - {client && client.location && client.location}</p>
               <div className={`flex items-center justify-start gap-2 text-[14px]`}>
                 <FaMapLocationDot className={`text-[24px] text-white`} />
-                <p className={`text-white font-light`}>{client && client.endereco && client.endereco}</p>
+                <p className={`text-white font-light`}>{client && client.address && client.address}</p>
               </div>
             </div>
-            <div>
-              {client && client.pecas && client.pecas.map((peca) => (
-              <div className={`pl-3 flex items-center justify-start gap-2`}>
-                <div className={`bg-black w-1 h-1 rounded-full`}></div>
-                <p>{peca}</p>
-              </div>
+            <div className={`p-2`}>
+              {clothes && clothes.length >= 1 && clothes.map((clothe) => (
+                <div>
+                  {clothe.cdivent}
+                  <img className={`mx-auto my-auto w-50 h-50`} src={clothe.image} alt={"imagem da roupa"} />
+                  {clothe.description}
+                </div>
               ))}
             </div>
             <div className={`mx-auto w-[90%] h-[0.1px] bg-black mt-6 mb-3`}>

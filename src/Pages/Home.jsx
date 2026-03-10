@@ -63,7 +63,7 @@ export default function Home() {
     getDrivers()
 
     if(drivers.length >= 0 && vehicles.length >= 0) {
-      setloading(true)
+      setloading(false)
     }
   },[])
 
