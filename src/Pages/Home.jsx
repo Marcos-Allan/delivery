@@ -76,7 +76,9 @@ export default function Home() {
   return (
     <>
       {loading == true ? (
-        <Loading />
+        <>
+          <Loading />
+        </>
       ) : (
         <div
           className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
