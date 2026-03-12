@@ -3,6 +3,7 @@ import Loading from "../Components/Loading";
 import Menu from "../Components/Menu";
 import api from "../services/api";
 import { ToastContainer, toast } from 'react-toastify';
+import Return from "../Components/Return";
 
 export default function AdmClothes() {
 
@@ -133,11 +134,12 @@ export default function AdmClothes() {
                 <Loading />
             ) : (
                 <div
-                    className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
+                    className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
                 >
+                    <Return />
                     <form
                         onSubmit={handleSave}
-                        className="flex flex-col items-center justify-center gap-4"
+                        className="flex flex-col items-center justify-center gap-4 mt-3"
                     >
                         {/* INPUT NOME - IGUAL AO SEU NOME FUNCIONÁRIO */}
                         <input

@@ -9,6 +9,7 @@ import '../App.css'
 
 import Loading from "../Components/Loading";
 import api from "../services/api";
+import Return from "../Components/Return";
 
 export default function Order() {
 
@@ -66,13 +67,14 @@ export default function Order() {
         <Loading />
       ) : (
         <div
-          className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 pb-24`}
+          className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 pb-24`}
         >
-          <p className={`text-[36px] mb-4 text-[#a591ef]`}>{driver}</p>
-          <p className={`w-[90%] flex items-center justify-center mb-6 bg-[#a591ef] py-2.5 rounded-[30px] shadow-2xl shadow-[#a591ef] text-white`}>delivery iniciado ás {time}</p>
+          <Return />
+          <p className={`text-[36px] mb-4 text-[#282252]`}>{driver}</p>
+          <p className={`w-[90%] flex items-center justify-center mb-6 bg-[#282252] py-2.5 rounded-[30px] shadow-2xl shadow-[#282252] text-white`}>delivery iniciado ás {time}</p>
         
-          <div className={`w-[90%] border border-[#a591ef] rounded-xl overflow-hidden shadow-2xl shadow-[#a591ef]`}>
-            <div className={`w-full bg-[#a591ef] px-3 py-3 mb-2 shadow-2xl shadow-[#a591ef]`}>
+          <div className={`w-[90%] border border-[#282252] rounded-xl overflow-hidden shadow-2xl shadow-[#282252]`}>
+            <div className={`w-full bg-[#282252] px-3 py-3 mb-2 shadow-2xl shadow-[#282252]`}>
               <p className={`mb-2 font-bold text-[16px] text-white`}>{client && client.client && client.client} - {client && client.location && client.location}</p>
               <div className={`flex items-center justify-start gap-2 text-[14px]`}>
                 <FaMapLocationDot className={`text-[24px] text-white`} />
@@ -92,7 +94,7 @@ export default function Order() {
             </div>
             <div
               onClick={notifySuccess}
-              className={`w-[90%] mx-auto bg-[#a591ef] flex items-center justify-center py-3 rounded-3xl font-bold mb-3 shadow-2xl shadow-[#a591ef] text-white`}
+              className={`w-[90%] mx-auto bg-[#282252] flex items-center justify-center py-3 rounded-3xl font-bold mb-3 shadow-2xl shadow-[#282252] text-white`}
             >
               confirmar entrega
             </div>
@@ -100,13 +102,13 @@ export default function Order() {
           
           <div
             onClick={notifyError}
-            className={`w-[90%] mt-8 mx-auto bg-[#e81d1d] flex items-center justify-center py-3 rounded-3xl font-bold mb-3 shadow-2xl shadow-[#a591ef] text-white`}
+            className={`w-[90%] mt-8 mx-auto bg-[#e81d1d] flex items-center justify-center py-3 rounded-3xl font-bold mb-3 shadow-2xl shadow-[#282252] text-white`}
           >
             cliente ausente
           </div>
 
           {loading == false && (
-            <p className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}>
+            <p className={`bg-[#F6F6FA] fixed bottom-0 mb-6 border-[1.5px] text-[#282252] border-[#282252] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#282252]`}>
               placa - {licensePlate}
             </p> 
           )}

@@ -1,7 +1,7 @@
 export default function NotFound() {
     return (
         <div
-            className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-center px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5 text-center`}
+            className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-center px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5 text-center`}
         >
             <p className={`text-center w-[90%]`}>Infelizmente a Página não foi encontrada :(</p>
             <br />

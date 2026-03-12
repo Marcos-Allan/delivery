@@ -81,12 +81,12 @@ export default function Home() {
         </>
       ) : (
         <div
-          className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
+          className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0`}
         >
-          <p className={`text-[36px] mb-14 leading-relaxed text-[#a591ef]`}>{drivers[indexDriver]?.name || 'Driver'}</p>
+          <p className={`text-[36px] mb-14 leading-relaxed text-[#282252]`}>{drivers[indexDriver]?.name || 'Driver'}</p>
           
-          <div className={`relative flex items-center justify-center w-[90%] rounded-3xl overflow-hidden border border-[#a591ef] shadow-2xl shadow-[#a591ef]`}>
-            <p className={`${indexDriver == 0 ? 'left-0' : 'right-0'} absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#a591ef] rounded-3xl px-12 transition-all duration-250ms`}></p>
+          <div className={`relative flex items-center justify-center w-[90%] rounded-3xl overflow-hidden border border-[#282252] shadow-2xl shadow-[#282252]`}>
+            <p className={`${indexDriver == 0 ? 'left-0' : 'right-0'} absolute w-[50%] opacity-[0.7] h-full text-center py-2 bg-[#282252] rounded-3xl px-12 transition-all duration-250ms`}></p>
             {drivers && drivers.map((item, index) => (
               <p
                 onClick={() => toggleDriver(index)}
@@ -100,7 +100,7 @@ export default function Home() {
               getTimerDelivery()
               navigate('/deliveries')
             }}
-            className={`text-[32px] font-bold border my-auto text-[#a591ef] border-[#a591ef] w-[80vw] h-[80vw] rounded-full flex items-center justify-center shadow-2xl shadow-[#a591ef]`}
+            className={`text-[32px] font-bold border my-auto text-[#282252] border-[#282252] w-[80vw] h-[80vw] rounded-full flex items-center justify-center shadow-2xl shadow-[#282252]`}
           >
             iniciar
           </div>
@@ -117,7 +117,7 @@ export default function Home() {
                 setLicensePlate(vehicles[0].license_plate)
               }
             }} 
-            className={`fixed bottom-0 mb-6 border-[1.5px] text-[#a591ef] border-[#a591ef] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#a591ef]`}
+            className={`bg-[#F6F6FA] fixed bottom-0 mb-6 border-[1.5px] text-[#282252] border-[#282252] w-[90%] py-4 flex items-center justify-center rounded-[60px] shadow-2xl shadow-[#282252]`}
           >
             placa - {licensePlate}
           </p>

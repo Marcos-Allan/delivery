@@ -9,6 +9,7 @@ import { FaEdit } from "react-icons/fa";
 
 import Loading from "../Components/Loading";
 import Menu from "../Components/Menu";
+import Return from "../Components/Return";
 
 export default function AdmVehicles() {
 
@@ -20,8 +21,14 @@ export default function AdmVehicles() {
     function getVehicles() {
         api.get('/vehicles')
         .then((response) => {
-            setVehicles(response.data);
-            setLoading(false)
+            if(typeof response.data == "string"){
+                setVehicles([]);
+                setLoading(false)
+                return
+            }else{
+                setVehicles(response.data);
+                setLoading(false)
+            }
         })
         .catch((error) => {
             console.error('Error fetching vehicles:', error);
@@ -115,8 +122,9 @@ export default function AdmVehicles() {
                 <Loading />
             ) : (
                 <div
-                    className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
+                    className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
                 >
+                    <Return />
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -126,7 +134,7 @@ export default function AdmVehicles() {
                                 addVehicle();
                             }
                         }}
-                        className="flex flex-col items-center justify-center gap-4"
+                        className="flex flex-col items-center justify-center gap-4 mt-3"
                     >
                         <input
                             type="text"
@@ -142,7 +150,7 @@ export default function AdmVehicles() {
                         />
                     </form>
                     <div className={`w-[90vw] flex flex-wrap items-center justify-start gap-1 mt-2`}>
-                        {vehicles && vehicles.map((vehicle) => (
+                        {typeof vehicles !== "string" && vehicles.length >= 1 && vehicles.map((vehicle) => (
                             <div key={vehicle._id} className={`border p-4 rounded-md w-[90vw] grow md:w-[49.71%] relative ${vehicleID == vehicle._id && 'bg-yellow-500'}`}>
                                 <p><strong>Placa:</strong> {vehicle.license_plate}</p>
                                 <div

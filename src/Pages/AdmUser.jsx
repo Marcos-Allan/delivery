@@ -10,11 +10,12 @@ import { FaEdit } from "react-icons/fa";
 import Loading from "../Components/Loading";
 
 import Menu from "../Components/Menu";
+import Return from "../Components/Return";
 
 export default function AdmUser() {
 
     const [loading, setLoading] = useState(true);
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
     const [userName, setUserName] = useState("");
     const [userPosition, setUserPosition] = useState("");
     const [userGender, setUserGender] = useState("masculino");
@@ -23,8 +24,15 @@ export default function AdmUser() {
     function getEmployees() {
         api.get('/employees')
         .then((response) => {
-            setUsers(response.data);
-            setLoading(false)
+            if(typeof response.data == "string"){
+                setUsers([]);
+                setLoading(false)
+                return
+            }else{
+                setUsers(response.data);
+                setLoading(false)
+                return
+            }
         })
         .catch((error) => {
             console.error('Error fetching employees:', error);
@@ -134,8 +142,9 @@ export default function AdmUser() {
                 <Loading />
             ) : (
                 <div
-                    className={`bg-[#fefefe] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
+                    className={`bg-[#F6F6FA] w-dvw min-h-dvh flex flex-col items-center justify-start px-4 py-8 uppercase overflow-hidden absolute top-0 left-0 text-black overflow-x-hidden pb-17.5`}
                 >
+                    <Return />
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -145,7 +154,7 @@ export default function AdmUser() {
                                 addUser();
                             }
                         }}
-                        className="flex flex-col items-center justify-center gap-4"
+                        className="flex flex-col items-center justify-center gap-4 mt-3"
                     >
                         <input
                             type="text"
@@ -176,8 +185,8 @@ export default function AdmUser() {
                         />
                     </form>
                     <div className={`w-[90vw] flex flex-wrap items-center justify-start gap-1 mt-2 `}>
-                        {users && users.map((user) => (
-                            <div key={user.id} className={`border p-4 rounded-md w-[90vw] grow md:w-[49.71%] relative ${userID == user._id && 'bg-yellow-500'}`}>
+                        {typeof users !== 'string' && users.length >= 1 && users.map((user, i) => (
+                            <div key={i} className={`border p-4 rounded-md w-[90vw] grow md:w-[49.71%] relative ${userID == user._id && 'bg-yellow-500'}`}>
                                 <p><strong>Nome:</strong> {user.name}</p>
                                 <p><strong>Cargo:</strong> {user.position}</p>
                                 <p><strong>Gênero:</strong> {user.gender}</p>
