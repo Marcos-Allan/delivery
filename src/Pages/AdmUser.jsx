@@ -19,6 +19,7 @@ export default function AdmUser() {
     const [userName, setUserName] = useState("");
     const [userPosition, setUserPosition] = useState("");
     const [userGender, setUserGender] = useState("masculino");
+    const [userPassword, setUserPassword] = useState("");
     const [userID, setUserID] = useState("");
 
     function getEmployees() {
@@ -41,15 +42,17 @@ export default function AdmUser() {
 
     function addUser() {
         api.post('/register-employee', {
-	        name: userName,
-	        position: userPosition,
-	        gender: userGender
+	        name: userName.toLowerCase(),
+	        position: userPosition.toLowerCase(),
+	        gender: userGender.toLowerCase(),
+	        password: userPassword,
         })
         .then((response) => {
             console.log(response.data);
             getEmployees();
             setUserName("");
             setUserPosition("");
+            setUserPassword("");
             setUserGender("masculino");
 
             if(response.data.type == "success") {
@@ -81,14 +84,16 @@ export default function AdmUser() {
 
     function updateUser(id) {
         api.put(`/update-employee/${id}`, {
-            name: userName,
-            position: userPosition,
-            gender: userGender
+            name: userName.toLowerCase(),
+            position: userPosition.toLowerCase(),
+            gender: userGender.toLowerCase(),
+            password: userPassword,
         })
         .then((response) => {
             getEmployees();
             setUserName("");
             setUserPosition("");
+            setUserPassword("");
             setUserGender("masculino");
             setUserID("");
 
@@ -113,6 +118,10 @@ export default function AdmUser() {
 
     function handleUserGender(e) {
         setUserGender(e.target.value);
+    }
+    
+    function handleUserPassword(e) {
+        setUserPassword(e.target.value);
     }
 
     useEffect(() => {
@@ -170,6 +179,13 @@ export default function AdmUser() {
                             placeholder="Cargo Funcionário"
                             className={`border px-3 py-2 rounded-md w-[90vw]`}
                         />
+                        <input
+                            type="text"
+                            value={userPassword}
+                            onChange={handleUserPassword}
+                            placeholder="Senha"
+                            className={`border px-3 py-2 rounded-md w-[90vw]`}
+                        />
                         <select
                             value={userGender}
                             onChange={handleUserGender}
@@ -190,17 +206,20 @@ export default function AdmUser() {
                                 <p><strong>Nome:</strong> {user.name}</p>
                                 <p><strong>Cargo:</strong> {user.position}</p>
                                 <p><strong>Gênero:</strong> {user.gender}</p>
+                                <p><strong>Senha:</strong> {user.password}</p>
                                 <div
                                     onClick={() => {
                                         if(userID == user._id){
                                             setUserID("")
                                             setUserName("")
                                             setUserPosition("")
+                                            setUserPassword("")
                                             setUserGender("Masculino")
                                         }else{
                                             setUserID(user._id)
                                             setUserName(user.name)
                                             setUserPosition(user.position)
+                                            setUserPassword(user.password)
                                             setUserGender(user.gender)
                                         }
                                     }}
