@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 
 const Bubble = styled.div`
   position: absolute;
-  background: rgba(45, 156, 219, 0.08);
+  background: rgba(87, 73, 184, 0.08);
   border-radius: 50%;
   z-index: 1;
 `;
@@ -90,7 +90,7 @@ const Water = styled.div`
   position: absolute;
   width: 150%;
   height: 150%;
-  background: rgba(45, 156, 219, 0.3);
+  background: rgba(87, 73, 184, 0.3);
   bottom: -60%;
   left: -25%;
   border-radius: 42%;
@@ -138,7 +138,7 @@ const ToggleEye = styled.span`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 18px;
-  background-color: ${props => props.$loading ? '#81D4FA' : (props.$success ? '#4CAF50' : (props.$error ? '#E62323' : '#2D9CDB'))};
+  background-color: ${props => props.$loading ? '#5749b8' : (props.$success ? '#4CAF50' : (props.$error ? '#E62323' : '#282252'))};
   color: white;
   border: none;
   border-radius: 22px;
@@ -146,7 +146,7 @@ const SubmitButton = styled.button`
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 10px 20px rgba(45, 156, 219, 0.2);
+  box-shadow: 0 10px 20px rgba(87, 73, 184, 0.2);
   margin-top: 10px;
 
   &:disabled {
