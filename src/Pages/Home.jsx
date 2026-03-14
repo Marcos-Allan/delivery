@@ -45,7 +45,7 @@ export default function Home() {
   function getDrivers() {
     api.get('/employees')
     .then((res) => {
-      const deliveryes = res.data.filter(item => item.position === "Entregador")
+      const deliveryes = res.data.filter(item => item.position === "entregador")
       console.log(deliveryes)
       setDrivers([])
       deliveryes.map((item) => {  

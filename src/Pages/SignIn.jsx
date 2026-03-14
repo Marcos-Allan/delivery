@@ -55,7 +55,7 @@ const WashingMachine = styled.div`
   width: 70px;
   height: 85px;
   background: white;
-  border: 4px solid #2D9CDB;
+  border: 4px solid #282252;
   border-radius: 15px;
   margin: 0 auto 20px;
   display: flex;
@@ -70,7 +70,7 @@ const WashingMachine = styled.div`
     left: 10px;
     width: 30px;
     height: 4px;
-    background: #2D9CDB;
+    background: #282252;
     border-radius: 2px;
   }
 `;
@@ -116,7 +116,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #2D9CDB;
+    border-color: #282252;
     background: white;
   }
 
