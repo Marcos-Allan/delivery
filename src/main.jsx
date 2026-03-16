@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 
 import './index.css'
 
-import Home from './Pages/Home';
+import Delivery from './Pages/Delivery';
 import Deliveries from './Pages/Deliveries';
 import Order from './Pages/Order';
 import AdmUser from './Pages/AdmUser';
@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
       <Route path="/" element={<SignIn />} /> 
-      <Route path="/delivery" element={<Home />} /> 
+      <Route path="/delivery" element={<Delivery />} /> 
       <Route path="/deliveries" element={<Deliveries />} /> 
       <Route path="/order/:id" element={<Order />} /> 
       <Route path="/adm/user" element={<AdmUser />} /> 

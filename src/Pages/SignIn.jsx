@@ -4,7 +4,10 @@ import Return from "../Components/Return";
 import api from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 
+import useUserStore from '../services/useStore';
+
 import styled, { keyframes } from 'styled-components';
+import { useNavigate } from 'react-router';
 
 // --- Animações ---
 const spin = keyframes`
@@ -155,10 +158,16 @@ const SubmitButton = styled.button`
 `;
 
 export default function SignIn() {
+
+  const navigate = useNavigate()
+
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState('idle');
   const [nameInput, setNameInput] = useState("")
   const [passwordInput, setPasswordInput] = useState("")
+  
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -175,6 +184,19 @@ export default function SignIn() {
           notifySuccess(response.data.message)
           setStatus('success');
           setTimeout(() => setStatus('idle'), 1500);
+          setUser({
+            name: String(response.data.user.name).toUpperCase(),
+            position: String(response.data.user.position).toUpperCase(),
+            gender: String(response.data.user.gender).toUpperCase()
+          })
+
+          setTimeout(() => {
+            if(String(response.data.user.position).toUpperCase() == 'entregador'){
+              navigate('/delivery')
+            }else{
+              navigate('/adm/user')
+            }
+          }, 2500);
         } else {
           notifyError(response.data.message)
           setStatus('error');
@@ -223,7 +245,6 @@ export default function SignIn() {
 
         <h1 style={{ fontSize: '26px', color: '#333', marginBottom: '5px' }}>Brilhante</h1>
         <p style={{ fontSize: '14px', color: '#90A4AE', marginBottom: '30px' }}>Gestão de Lavanderia</p>
-
         <form onSubmit={handleSubmit}>
           <InputGroup>
             <Input

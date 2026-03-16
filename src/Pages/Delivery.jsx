@@ -7,7 +7,9 @@ import '../App.css'
 
 import Loading from "../Components/Loading";
 
-export default function Home() {
+import useUserStore from '../services/useStore';
+
+export default function Delivery() {
 
   const navigate = useNavigate()
 
@@ -22,6 +24,8 @@ export default function Home() {
 
     localStorage.setItem("LB_DELIVERY", `${hora >= 10 ? hora : `0${hora}`}:${minutos >= 10 ? minutos : `0${minutos}`}:${segundos >= 10 ? segundos : `0${segundos}`}`)     
   }
+
+  const user = useUserStore((state) => state.user);
 
   const [loading, setloading] = useState(true)
   const [vehicles, setVehicles] = useState([])
@@ -57,6 +61,10 @@ export default function Home() {
   }
 
   useEffect(() => {
+    if(user.position.toLowerCase() !== "entregador" && user.position.toLowerCase() !== 'dono'){
+      navigate("/")
+    }
+
     setloading(true)
     localStorage.removeItem("LB_DELIVERY")
     getVehicles()

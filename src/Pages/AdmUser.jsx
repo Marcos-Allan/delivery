@@ -1,6 +1,8 @@
 
 import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router";
+
 import api from "../services/api";
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -8,11 +10,16 @@ import { FaTrashAlt } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 
 import Loading from "../Components/Loading";
-
-import Menu from "../Components/Menu";
 import Return from "../Components/Return";
+import Menu from "../Components/Menu";
+
+import useUserStore from '../services/useStore';
 
 export default function AdmUser() {
+
+    const navigate = useNavigate()
+
+    const user = useUserStore((state) => state.user);
 
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
@@ -125,6 +132,10 @@ export default function AdmUser() {
     }
 
     useEffect(() => {
+        console.log(user.position)
+        if(user.position.toLowerCase() !== "auxiliar adm" && user.position.toLowerCase() !== 'dono'){
+            navigate("/")
+        }
         setLoading(true)
         getEmployees();
     },[])
