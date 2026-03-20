@@ -12,6 +12,7 @@ import AdmVehicles from './Pages/AdmVehicles';
 import NotFound from './Pages/NotFound';
 import AdmClothes from './Pages/AdmClothes';
 import SignIn from './Pages/SignIn';
+import AdmOrder from './Pages/AdmOrder';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/adm/user" element={<AdmUser />} /> 
       <Route path="/adm/vehicle" element={<AdmVehicles />} /> 
       <Route path="/adm/clothes" element={<AdmClothes />} /> 
+      <Route path="/adm/orders" element={<AdmOrder />} /> 
       <Route path="*" element={<NotFound />} />
     </Routes>
     </BrowserRouter>
