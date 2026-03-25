@@ -7,12 +7,16 @@ import Return from "../Components/Return";
 import { FaTrashAlt, FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios"
 
+import useUserStore from '../services/useStore';
+
 export default function AdmClothes() {
     const [clothes, setClothes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(null);
     const [imagem, setImagem] = useState(null);
 
+    const user = useUserStore((state) => state.user);
+        
     // DADOS REAIS DO SEU ARQUIVO
     
     const UPLOAD_PRESET = "fotos_roupas";
@@ -108,6 +112,10 @@ export default function AdmClothes() {
     };
 
     useEffect(() => {
+        if(user.position.toLowerCase() !== "auxiliar adm" && user.position.toLowerCase() !== 'dono'){
+            navigate("/")
+        }
+
         getCloudinaryImages();
     }, []);
 

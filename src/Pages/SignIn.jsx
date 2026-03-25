@@ -179,7 +179,7 @@ export default function SignIn() {
       password: passwordInput
     })
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       if(response.data.type == "success") {
           notifySuccess(response.data.message)
           setStatus('success');
@@ -191,7 +191,7 @@ export default function SignIn() {
           })
 
           setTimeout(() => {
-            if(String(response.data.user.position).toUpperCase() == 'entregador'){
+            if(String(response.data.user.position).toLowerCase() == 'entregador'){
               navigate('/delivery')
             }else{
               navigate('/adm/user')

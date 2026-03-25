@@ -8,8 +8,12 @@ import { FaTrashAlt, FaEdit, FaTimes, FaCloudUploadAlt, FaCheck } from "react-ic
 import Loading from "../Components/Loading";
 import Menu from "../Components/Menu";
 import Return from "../Components/Return";
+import useUserStore from '../services/useStore';
 
 export default function AdmOrder() {
+
+    const user = useUserStore((state) => state.user);
+
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
     const [orderID, setOrderID] = useState("");
@@ -157,7 +161,12 @@ export default function AdmOrder() {
         setPreview(null);
     }
 
-    useEffect(() => { getOrders(); }, []);
+    useEffect(() => {
+        if(user.position.toLowerCase() !== "auxiliar adm" && user.position.toLowerCase() !== 'dono'){
+            navigate("/")
+        }
+        getOrders();
+    }, []);
 
     const notifySuccess = (msg) => toast.success(msg, { theme: 'colored' });
     const notifyError = (msg) => toast.error(msg, { theme: 'colored' });

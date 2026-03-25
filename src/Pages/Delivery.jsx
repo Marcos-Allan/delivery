@@ -61,7 +61,7 @@ export default function Delivery() {
   }
 
   useEffect(() => {
-    if(user.position.toLowerCase() !== "entregador" && user.position.toLowerCase() !== 'dono'){
+    if(String(user.position.toLowerCase()) !== "entregador" && String(user.position.toLowerCase()) !== 'dono'){
       navigate("/")
     }
 

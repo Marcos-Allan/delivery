@@ -11,12 +11,16 @@ import Loading from "../Components/Loading";
 import Menu from "../Components/Menu";
 import Return from "../Components/Return";
 
+import useUserStore from '../services/useStore';
+
 export default function AdmVehicles() {
 
     const [loading, setLoading] = useState(true);
     const [vehicles, setVehicles] = useState();
     const [vehicleID, setVehicleID] = useState("");
     const [vehicleLicensePlate, setVehicleLicensePlate] = useState("");
+
+    const user = useUserStore((state) => state.user);
 
     function getVehicles() {
         api.get('/vehicles')
@@ -96,6 +100,9 @@ export default function AdmVehicles() {
     }
 
     useEffect(() => {
+        if(user.position.toLowerCase() !== "auxiliar adm" && user.position.toLowerCase() !== 'dono'){
+            navigate("/")
+        }
         setLoading(true)
         getVehicles();
     },[])
