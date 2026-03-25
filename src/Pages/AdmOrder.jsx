@@ -228,7 +228,7 @@ export default function AdmOrder() {
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-[11px] font-black text-blue-800">{order.client}</p>
-                                            <p className="text-[9px] font-bold text-gray-500">{order.location} | {order.status}</p>
+                                            <p className="text-[9px] font-bold text-gray-500">{order.location} | <span className="text-red-600">{order.status}</span></p>
                                         </div>
                                         <div className="bg-black text-white text-[8px] px-2 py-1 rounded font-bold">{order.zone}</div>
                                     </div>
@@ -250,11 +250,9 @@ export default function AdmOrder() {
                                             <FaEdit /> EDITAR
                                         </button>
                                         <button onClick={async () => {
-                                            if(window.confirm("DESEJA REALMENTE EXCLUIR ESTE PEDIDO?")) {
-                                                await api.delete(`/delete-order/${order._id}`);
-                                                getOrders();
-                                                notifySuccess("EXCLUÍDO!");
-                                            }
+                                            await api.delete(`/delete-order/${order._id}`);
+                                            getOrders();
+                                            notifySuccess("EXCLUÍDO!");
                                         }} className="text-red-600 flex items-center gap-1 font-bold text-[10px]">
                                             <FaTrashAlt /> EXCLUIR
                                         </button>
