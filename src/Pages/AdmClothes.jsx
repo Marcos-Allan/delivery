@@ -190,7 +190,7 @@ export default function AdmClothes() {
                                         /* VISUAL DE PASTA (Clica para abrir) */
                                         <div className="py-4 flex flex-col items-center cursor-pointer">
                                             <FaFolder size={50} className="text-yellow-500" />
-                                            <p className="text-[10px] font-black mt-2 text-center break-words px-1">{nome}</p>
+                                            <p className="text-[10px] font-black mt-2 text-center px-1">{nome}</p>
                                             <span className="bg-black text-white text-[8px] px-2 rounded-full">{itens.length} ITENS</span>
                                         </div>
                                     ) : (
