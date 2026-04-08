@@ -1,13 +1,14 @@
+//IMPORTACAO AS BIBLIOTECAS NECESSARIAS PARA RODAR A APLICACAO
 import { useState, useEffect } from "react";
 import api from "../services/api";
-
 import { useNavigate } from "react-router";
+import useUserStore from '../services/useStore';
 
+//IMPORTACAO DO ESTILO GERAL
 import '../App.css'
 
+//IMPORTACAO DOS COMPONENTES
 import Loading from "../Components/Loading";
-
-import useUserStore from '../services/useStore';
 
 export default function Delivery() {
 

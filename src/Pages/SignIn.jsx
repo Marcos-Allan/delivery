@@ -1,15 +1,20 @@
+//IMPORTACAO DAS BIBLIOTECAS NECESSARIAS PARA RODAR A APLICACAO
 import { useState } from 'react';
-import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import Return from "../Components/Return";
-import api from '../services/api';
 import { ToastContainer, toast } from 'react-toastify';
+import api from '../services/api';
+import { useNavigate } from 'react-router';
+import styled, { keyframes } from 'styled-components';
 
+//IMPORTACAO DOS ICONES
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+
+//IMPORTACAO DOS COMPONENTES
+import Return from "../Components/Return";
+
+//IMPORTAÇÃO DO GERENCIAMENTO DE ESTADO GLOBAL
 import useUserStore from '../services/useStore';
 
-import styled, { keyframes } from 'styled-components';
-import { useNavigate } from 'react-router';
-
-// --- Animações ---
+//ANIMACOES
 const spin = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -20,7 +25,7 @@ const float = keyframes`
   50% { transform: translateY(-10px); }
 `;
 
-// --- Estilos ---
+//ESTILOS
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
@@ -159,58 +164,81 @@ const SubmitButton = styled.button`
 
 export default function SignIn() {
 
+  //UTILIZACAO DA BIBLIOTECA IMPORTADA
   const navigate = useNavigate()
 
+  //VARIAVEIS DE CONTROLE DA APLICACAO
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState('idle');
   const [nameInput, setNameInput] = useState("")
   const [passwordInput, setPasswordInput] = useState("")
   
+  //VARIAVEL DE CONTROLE GLOBAL
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
 
+  //FUNCAO RESPONSAVEL POR FAZER A IMEDIACAO DO ENVIO DO FORMULARIO
   const handleSubmit = (e) => {
+
+    //PREVINE O CARREGAMENTO DA PAGINA
     e.preventDefault();
 
+    //MUDA O STATUS DA APLICACAO PARA 'loading'
     setStatus('loading');
 
+    //FAZ A REQUISICAO DE LOGIN, PASSANDO O NOME E A SENHA DIGITADA NOS INPUTS
     api.post('/login', {
       name: nameInput.toLowerCase(),
       password: passwordInput
     })
+    //AGUARDA RESPOSTA DO SERVIDOR NA VARIAVEL 'response'
     .then((response) => {
-      // console.log(response.data)
+      //VERIFIA SE O TIPO DA RESPOSTA DO SERVIDOR RETORNADO E 'success'
       if(response.data.type == "success") {
+          //DISPARA A MENSAGEM DE SUCESSO VINDA DO SERVIDOR NA TELA
           notifySuccess(response.data.message)
+          //MUDA O STATUS DA APLICACAO PARA 'success'
           setStatus('success');
+          //CHAMA UMA FUNCAO DEPOIS DE 1,5 SEGUNDOS QUE MUDA O ESTADO DA APLICACAO PARA 'idle'
           setTimeout(() => setStatus('idle'), 1500);
+          //COLOCA NA VARIAVEL DE ESTADO GLOBAL O NOME O CARGO E O GENERO DO FUNCIONARIO(A)
           setUser({
             name: String(response.data.user.name).toUpperCase(),
             position: String(response.data.user.position).toUpperCase(),
             gender: String(response.data.user.gender).toUpperCase()
           })
 
+          //CHAMA UMA FUNCAO DEPOIS DE 2,5 SEGUNDOS QUE VERIFICA SE O CARGO DO FUNCIONARIO E 'entregador'
           setTimeout(() => {
             if(String(response.data.user.position).toLowerCase() == 'entregador'){
+              //REDIRECIONA O USUARIO PARA A PAGINA DE 'delivery'
               navigate('/delivery')
             }else{
+              //REDIRECIONA O USUARIO PARA A PAGINA DE 'adm'
               navigate('/adm/user')
             }
           }, 2500);
         } else {
+          //DISPARA A MENSAGEM DE ERRO VINDA DO SERVIDOR NA TELA
           notifyError(response.data.message)
+          //MUDA O ESTADO DA APLICACAO PARA 'error'
           setStatus('error');
+          //CHAMA UMA FUNCAO DEPOIS DE 1,5 SEGUNDOS E MUDA O ESTADO DA APLICACAO PARA 'idle'
           setTimeout(() => setStatus('idle'), 1500);
       }
 
     })
     .catch((error) => {
+      //ESCREVE O ERRO NO CONSOLE
         console.log(error)
+        //MUDA O ESTADO DA APLICACAO PARA 'error'
         setStatus('error');
+        //CHAMA UMA FUNCAO DEPOIS DE 1,5 SEGUNDOS E MUDA O ESTADO DA APLICACAO PARA 'idle'
         setTimeout(() => setStatus('idle'), 1500);
     })
   };
 
+  //FUNCAO RESPONSAVEL POR COLOCAR A MENSAGEM DE SUCESSO NA TELA
   const notifySuccess = (msg) => {
     toast.success(msg, {
       toastId: "pedido-confirmado",
@@ -218,7 +246,8 @@ export default function SignIn() {
       theme: 'colored'
     })
   };
-
+  
+  //FUNCAO RESPONSAVEL POR COLOCAR A MENSAGEM DE ERRO NA TELA
   const notifyError = (msg) => {
     toast.error(msg, {
         toastId: "pedido-confirmado",

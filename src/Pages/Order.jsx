@@ -1,22 +1,29 @@
+//IMPORTACAO DAS BIBLIOTECAS NECESSARIAS PARA RODAR A APLICACAO
 import { useState, useEffect } from "react"
+import api from "../services/api";
 import { useParams } from "react-router";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router";
 
+//IMPORTACAO DOS ICONES
 import { FaMapLocationDot } from "react-icons/fa6";
 
+//IMPORTACAO DO ESTILO GERAL DA APLICACAO
 import '../App.css'
 
+//IMPORTACAO DOS COMPONENTES
 import Loading from "../Components/Loading";
-import api from "../services/api";
 import Return from "../Components/Return";
 
 export default function Order() {
 
+  //UTILIZACAO DA BIBLIOTECA IMPORTADA
   const navigate = useNavigate()
 
+  //PEGA O PARAMETRO PASSADO POR URL
   const { id } = useParams();
 
+  //VARIAVEIS DE CONTROLE DA APLICACAO
   const [loading, setloading] = useState(true)
   const [time, setTime] = useState()
   const [driver, setDriver] = useState(localStorage.getItem('driver_lavanderia_brilhante') !== null ? localStorage.getItem('driver_lavanderia_brilhante') : 'Marcos')
@@ -24,38 +31,56 @@ export default function Order() {
   const [clothes, setClothes] = useState()
   const [licensePlate, setLicensePlate] = useState(localStorage.getItem('vehicle_lavanderia_brilhante') !== null ? localStorage.getItem('vehicle_lavanderia_brilhante') : 'Crregando')
 
+  //FUNCAO CHAMADA TODA VEZ QUE A PAGINA E RECARREGADA
   useEffect(() => {
+      //COLOCA O ESTADO DE CARREGAMENTO DA APLICACAO COMO 'true'
       setloading(true)
+      //CHAMA A FUNCAO QUE PEGA OS PEDIDOS
       getOrder()
+      //SETA O TEMPO QUE O DELIVERY COMECOU PEGANDO DO localStorage
       setTime(localStorage.getItem("LB_DELIVERY"))
+      //SETA O NOME DO MOTORISTA NO localStorage
       setDriver(localStorage.getItem("driver_lavanderia_brilhante"))
   },[])
 
+  //FUNCAO RESPONSAVEL POR PEGAR OS PEDIDOS
   function getOrder() {
+    //MUDA O ESTADO DE CARREGAMENTO DA PAGINA PARA 'true'
     setloading(true)
-    
+    //FAZ A REQUISICAO NA API PARA PEGAR O PEDIDO PELO ID PASSADO POR PARAMETRO NA PAGINA
     api.get(`/get-order/${id}`)
+    //AGUARDA A RESPOSTA DO SERVIDOR
     .then((res) => {
+      //ESCREVE NO CONSOLE O PEDIDO VINDO DA RESPOSTA DO SERVIDOR
       console.log(res.data.order)
+      //COLOCA O PEDIDO VINDO DO SERVIDOR NA VARIAVEL DE CONTROLE 'client'
       setClient(res.data.order)
+      //COLOCA AS ROUPAS NA VARIAVEL DE CONTROLE 'clothes'
       setClothes(JSON.parse(res.data.order.clothes))
+      //ESCREVE O 'id' PASSADO NA URL COMO PARAMETRO NO CONSOLE
       console.log(id)
+      //MUDA O ESTADO DE CARREGAMENTO DA PAGINA PARA 'false'
       setloading(false)
     })
+    //ESCREVE O ERRO NO CONSOLE
     .catch((err) => console.log(err))
   }
 
+  //FUNCAO RESPONSAVEL POR COLOCAR A MENSAGEM DE SUCESSO NA TELA
   const notifySuccess = () => {
     toast.success("Pedido Entregue com Sucesso! ", {
       toastId: "pedido-confirmado",
       theme: 'colored'
     })
 
+    //CHAMA UMA FUNCAO DEPOIS DE 3,5 SEGUNDOS
     setTimeout(() => {
+      //REDIRECIONA O USUARIO PARA A PAGINA DE 'deliveries'
       navigate('/deliveries')
     },3500)
   };
   
+  //FUNCAO RESPONSAVEL POR COLOCAR A MENSAGEM DE ERRO NA TELA
   const notifyError = () => toast.error("Destinatário Ausente, Pedido não Entregue! ", {
     toastId: "pedido-confirmado",
     theme: 'colored'
